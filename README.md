@@ -3,7 +3,7 @@
 
 This repo contains scripts used to automate SCCM software installations, Configuration Manager client actions, and common post-imaging setup tasks on student or staff Windows devices.
 
-## 🎯 Purpose
+## Purpose
 
 After imaging school devices, these scripts allow:
 
@@ -14,7 +14,7 @@ After imaging school devices, these scripts allow:
 - Executing a custom network drive command (`h:g`)
 - All **without requiring admin privileges** from the end user
 
-## 🗃️ File Structure
+## File Structure
 
 | File                  | Purpose |
 |-----------------------|---------|
@@ -23,7 +23,7 @@ After imaging school devices, these scripts allow:
 | `install.bat`         | User-facing script that triggers the task and runs post-setup actions |
 | `README.md`           | This documentation |
 
-## 🛠️ Setup Instructions (Imaging/Deployment Time)
+## Setup Instructions (Imaging/Deployment Time)
 
 Run the following steps once on each imaged machine — ideally during your MDT or SCCM task sequence:
 
@@ -43,7 +43,7 @@ Run the following steps once on each imaged machine — ideally during your MDT 
 
 ---
 
-## 👨‍🏫 How It Works (For Staff/Techs)
+## How It Works (For Staff/Techs)
 
 1. The **user logs in** and runs `install.bat` (can be triggered automatically).
 2. They are **prompted to enter a folder name**, which is created on their desktop.
@@ -57,7 +57,7 @@ No admin rights are needed from the user.
 
 ---
 
-## 🧪 Testing the Setup
+## Testing the Setup
 
 To test manually:
 
@@ -78,7 +78,7 @@ Watch for the following:
 
 ---
 
-## 🧰 Customization
+## Customization
 
 You can customize:
 
@@ -88,7 +88,7 @@ You can customize:
 
 ---
 
-## ✅ Requirements
+## Requirements
 
 * Windows 10/11 Education or Pro
 * SCCM client installed and configured
