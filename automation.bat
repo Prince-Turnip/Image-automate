@@ -9,7 +9,8 @@ for /f "delims=" %%i in ('powershell -NoProfile -Command "hostname"') do (
 echo The hostname is: !hostname!
 
 REM === Install the 'Impero' Application via WMI ===
-powershell -NoProfile -Command "& {
+powershell -NoProfile -Command ^
+"& {
     $computerName = '!hostname!'
     $applicationName = 'Impero'
     $namespace = 'root\ccm\ClientSDK'
@@ -30,7 +31,8 @@ powershell -NoProfile -Command "& {
 }"
 
 REM === Create Shortcut to Configuration Manager on Desktop ===
-powershell -NoProfile -Command "& {
+powershell -NoProfile -Command ^
+"& {
     $shortcutPath = Join-Path -Path $env:USERPROFILE -ChildPath 'Desktop\\Configuration Manager.lnk'
     $targetPath = '%windir%\system32\control.exe'
     $argument = 'smscfgrc'
@@ -46,24 +48,39 @@ powershell -NoProfile -Command "& {
     Write-Host 'Shortcut created successfully!'
 }"
 
-REM === Trigger ConfigMgr Client Action ===
-powershell -NoProfile -Command "& {
-    try {
-        Invoke-CMClientAction -DeviceName '!hostname!' -Action MachinePolicyRetrievalEvalCycle
-        Write-Host 'Client action triggered successfully!'
-    } catch {
-        Write-Host 'Failed to trigger ConfigMgr action.' -ForegroundColor Red
+REM === Trigger ALL SCCM Client Actions from the Actions Tab ===
+powershell -NoProfile -Command ^
+"& {
+    $allActions = @(
+        '00000000-0000-0000-0000-000000000121',
+        '00000000-0000-0000-0000-000000000003',
+        '00000000-0000-0000-0000-000000000010',
+        '00000000-0000-0000-0000-000000000001',
+        '00000000-0000-0000-0000-000000000021',
+        '00000000-0000-0000-0000-000000000002',
+        '00000000-0000-0000-0000-000000000031',
+        '00000000-0000-0000-0000-000000000113',
+        '00000000-0000-0000-0000-000000000114',
+        '00000000-0000-0000-0000-000000000022',
+        '00000000-0000-0000-0000-000000000032'
+    )
+
+    foreach ($id in $allActions) {
+        try {
+            Invoke-CimMethod -Namespace 'root\ccm' -ClassName 'SMS_Client' -MethodName 'TriggerSchedule' -Arguments @{sScheduleID = $id}
+            Write-Host \"Triggered action: $id\"
+        } catch {
+            Write-Host \"Failed to trigger action: $id\" -ForegroundColor Red
+        }
     }
 }"
 
-REM === Run H:G as originally written ===
+REM === Run H:G exactly as written ===
 powershell -Command "& {
 h:g
 }"
 
 pause
-
-
 
 
 
