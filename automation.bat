@@ -12,7 +12,7 @@ REM === Install the 'Impero' Application via WMI ===
 powershell -NoProfile -Command ^
 "& {
     $computerName = '!hostname!'
-    $applicationName = 'Impero'
+    $applicationName = 'Impero Client - 8.6.28 (New)'
     $namespace = 'root\ccm\ClientSDK'
 
     try {
